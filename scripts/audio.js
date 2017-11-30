@@ -24,8 +24,8 @@ var duration = 0;
 var mp3dur = 0;
 
 
-
-function eye_flash(passed_msg, track) {
+// lights Blinkstick physical device from system hosting hubot
+function eye_flash(track) {
     if (eyes_on) {
         duration = 0;
         mp3dur = 0;
@@ -42,14 +42,17 @@ function eye_flash(passed_msg, track) {
     }
 }
 
-
 // quiet, do nothing function
 function shhhh() {
 }
 
 // plays mp3 files from physical device hosting hubot
 function say(track) {
-    sounds_on ? shell.exec(player + track, { async: true, silent: true }) : shhhh();
+    if (sounds_on) {
+        shell.exec(player + track, { async: true, silent: true });
+        eye_flash(track);
+    }
+
 }
 
 // chats a response to the chosen chat interface i.e. Slack, Yammer, etc.
@@ -108,18 +111,15 @@ module.exports = function (robot) {
 
     robot.hear(/vader dont fail/igm, function (msg) {
         say("./sounds/dontfail.mp3");
-        eye_flash(msg, "./sounds/dontfail.mp3");
     });
 
     robot.hear(/vader build pass/igm, function (msg) {
         // chat_it(msg, "Impressive");
         say("./sounds/proud.mp3");
-        eye_flash(msg, "./sounds/proud.mp3");
     });
 
     robot.hear(/Git push detected/igm, function (msg) {
         //  chat_it(msg, "Real Good");
         say("./sounds/pushit.mp3");
-        eye_flash(msg, "./sounds/pushit.mp3");
     });
 }
