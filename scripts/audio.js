@@ -162,6 +162,6 @@ module.exports = function (robot) {
     });
     robot.hear(/vader force/igm, function (msg) {
         //  chat_it(msg, "Real Good");
-        say("force.mp3");
+        say("theforce.mp3");
     });
 }
