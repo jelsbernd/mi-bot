@@ -1,15 +1,15 @@
 // Description:
-//   holiday detector script
+//    Darth Vader voice audio and Jenkins build light monitor via Slack channel 
 //
 // Dependencies:
-//   None
+//   TBD
 //
 // Configuration:
-//   None
+//   TBD
 //
 // Commands:
-//   hubot is it weekend ?  - returns whether is it weekend or not
-//   hubot is it holiday ?  - returns whether is it holiday or not
+//   vader xxx  ?  - returns lights and sounds
+//
 
 var shell = require('shelljs');
 var eyes_on = true;
@@ -26,31 +26,19 @@ var mp3dur = 0;
 
 
 function eye_flash(passed_msg, track) {
-    mp3Duration(track, function (err, duration) {
-        if (err) return console.log(err.message);
-        console.log('Your file is ' + duration + ' seconds long');
-        mp3dur = duration * 1000;
-    });
-    // if (eyes_on) {
-    // determine mp3 length in ms for use in eye blink duration
-    // new Promise(mp3Duration(track, function (err, duration) {
-    //     .then
-    //     if (err) duration = 2;
-
-    console.log('Your duration is ' + mp3dur + ' seconds long');
-    // chat_it(passed_msg, "duration buoy = " + mp3dur);
-    // }
-    wink_len = 0;
-    // mp3dur = duration;
-    // .then mp3dur = promise.duration;
-    // chat_it(passed_msg, mp3dur);
-    while (wink_len <= mp3dur) {
-        wink = Math.floor(Math.random() * 200) + 50;
-        // chat_it(passed_msg, "wink = " + wink);
-        shell.exec('blinkstick --pulse red --repeat 1 --duration=' + wink, { async: false, silent: true });
-        // wink_len += 1000;
-        wink_len += wink;
-        // chat_it(passed_msg, "wink_len = " + wink_len);
+    if (eyes_on) {
+        duration = 0;
+        mp3dur = 0;
+        mp3Duration(track, function (err, duration) {
+            if (err) return console.log(err.message);
+            mp3dur = duration * 1000;
+            wink_len = 0;
+            while (wink_len <= mp3dur) {
+                wink = Math.floor(Math.random() * 200) + 50;
+                shell.exec('blinkstick --pulse red --repeat 1 --duration=' + wink, { async: false, silent: true });
+                wink_len += wink * 4;
+            }
+        });
     }
 }
 
@@ -119,18 +107,14 @@ module.exports = function (robot) {
     });
 
     robot.hear(/vader dont fail/igm, function (msg) {
-        shell.exec('mpg123 ./sounds/dontfail.mp3', { async: true, silent: true });
-        shell.exec('blinkstick --pulse red --repeat 3 --duration=50', { async: false, silent: true });
-        shell.exec('blinkstick --pulse red --repeat 2 --duration=100', { async: false, silent: true });
-        shell.exec('blinkstick --pulse red --repeat 10 --duration=500', { async: true, silent: true });
-        msg.send();
+        say("./sounds/dontfail.mp3");
+        eye_flash(msg, "./sounds/dontfail.mp3");
     });
 
     robot.hear(/vader build pass/igm, function (msg) {
         // chat_it(msg, "Impressive");
         say("./sounds/proud.mp3");
         eye_flash(msg, "./sounds/proud.mp3");
-        // shell.exec('blinkstick --pulse red --repeat 1 --duration=500', { async: true, silent: true });
     });
 
     robot.hear(/Git push detected/igm, function (msg) {
