@@ -32,6 +32,7 @@ function eye_flash(track) {
         mp3dur = 0;
         mp3Duration(track, function (err, duration) {
             if (err) return console.log(err.message);
+            shell.exec(player + track_dir + track, { async: true, silent: true });
             mp3dur = duration * 1000;
             wink_len = 0;
             while (wink_len <= mp3dur) {
@@ -50,7 +51,7 @@ function shhhh() {
 // plays mp3 files from physical device hosting hubot
 function say(track) {
     if (sounds_on) {
-        shell.exec(player + track_dir + track, { async: true, silent: true });
+        // shell.exec(player + track_dir + track, { async: true, silent: true });
         eye_flash(track_dir + track);
     }
 
