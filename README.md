@@ -1,6 +1,8 @@
 # mibot
 
 PREREQUISITES:
+sudo npm install -g shelljs
+
 sudo apt-get install python-pip
 sudo pip intall setuptools
 sudo pip install blinkstick
