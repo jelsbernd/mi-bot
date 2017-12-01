@@ -2,6 +2,8 @@
 
 PREREQUISITES:
 sudo npm install -g shelljs
+sudo apt-get install mpg123
+
 
 sudo apt-get install python-pip
 sudo pip intall setuptools
