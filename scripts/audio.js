@@ -34,8 +34,9 @@ function eye_flash(track) {
         mp3dur = duration * 1000;
         wink_len = 0;
         while (wink_len <= mp3dur) {
-            wink = Math.floor(Math.random() * 200) + 50;
-            // wink = 250;
+            // wink = Math.floor(Math.random() * 200) + 50;
+            wink = 250;
+            // WTH
             shell.exec('blinkstick --pulse red --repeat 1 --duration=' + wink, { async: false, silent: true });
             wink_len += wink * 4;
         }
