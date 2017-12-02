@@ -28,19 +28,29 @@ var mp3dur = 0;
 // lights Blinkstick physical device from system hosting hubot
 function eye_flash(track) {
     if (eyes_on) {
-        duration = 0;
+        duration = 3.88;
         mp3dur = 0;
-        mp3Duration(track, function (err, duration) {
-            if (err) return console.log(err.message);
-            mp3dur = duration * 1000;
-            wink_len = 0;
-            while (wink_len <= mp3dur) {
-                wink = Math.floor(Math.random() * 200) + 50;
-                // wink = 250;
-                shell.exec('blinkstick --pulse red --repeat 1 --duration=' + wink, { async: false, silent: true });
-                wink_len += wink * 4;
-            }
-        });
+
+        mp3dur = duration * 1000;
+        wink_len = 0;
+        while (wink_len <= mp3dur) {
+            wink = Math.floor(Math.random() * 200) + 50;
+            // wink = 250;
+            shell.exec('blinkstick --pulse red --repeat 1 --duration=' + wink, { async: false, silent: true });
+            wink_len += wink * 4;
+        }
+
+        // mp3Duration(track, function (err, duration) {
+        //     if (err) return console.log(err.message);
+        //     mp3dur = duration * 1000;
+        //     wink_len = 0;
+        //     while (wink_len <= mp3dur) {
+        //         wink = Math.floor(Math.random() * 200) + 50;
+        //         // wink = 250;
+        //         shell.exec('blinkstick --pulse red --repeat 1 --duration=' + wink, { async: false, silent: true });
+        //         wink_len += wink * 4;
+        //     }
+        // });
     }
 }
 
