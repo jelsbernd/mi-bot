@@ -32,11 +32,11 @@ function eye_flash(track) {
         mp3dur = 0;
         mp3Duration(track, function (err, duration) {
             if (err) return console.log(err.message);
-            shell.exec(player + track_dir + track, { async: true, silent: true });
             mp3dur = duration * 1000;
             wink_len = 0;
             while (wink_len <= mp3dur) {
                 wink = Math.floor(Math.random() * 200) + 50;
+                // wink = 250;
                 shell.exec('blinkstick --pulse red --repeat 1 --duration=' + wink, { async: false, silent: true });
                 wink_len += wink * 4;
             }
@@ -51,8 +51,9 @@ function shhhh() {
 // plays mp3 files from physical device hosting hubot
 function say(track) {
     if (sounds_on) {
-        // shell.exec(player + track_dir + track, { async: true, silent: true });
         eye_flash(track_dir + track);
+        shell.exec(player + track_dir + track, { async: true, silent: true });
+
     }
 
 }
