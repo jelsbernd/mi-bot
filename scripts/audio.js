@@ -61,9 +61,8 @@ function shhhh() {
 // plays mp3 files from physical device hosting hubot
 function say(track) {
     if (sounds_on) {
-        eye_flash(track_dir + track);
         shell.exec(player + track_dir + track, { async: true, silent: true });
-
+        eye_flash(track_dir + track);
     }
 
 }
