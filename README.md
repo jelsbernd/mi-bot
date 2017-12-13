@@ -11,6 +11,11 @@ sudo pip install setuptools
 sudo pip install blinkstick
 DOCS for above: https://pypi.python.org/pypi/BlinkStick/
 
+https://forums.blinkstick.com/t/issues-installing-node-js-api-packages/334
+https://github.com/node-hid/node-hid#installation
+
+
+
 commands for lights:
 blinkstick --pulse red
 

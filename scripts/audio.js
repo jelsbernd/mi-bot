@@ -36,7 +36,7 @@ function eye_flash(track) {
         mp3dur = dur * 1000;
         wink_len = 0;
         while (wink_len <= mp3dur) {
-            wink = Math.floor(Math.random() * 200) + 50;
+            // wink = Math.floor(Math.random() * 200) + 50;
             // wink = 250;
             // WTH
             if (device) {
@@ -46,25 +46,8 @@ function eye_flash(track) {
 
                 var setColor = function () {
                     console.log(index);
-
-                    // device.morph('red', function ()
-                    device.pulse("#000000", { 'channel': 0, 'index': 0, 'duration': 500 }, function () {
-                        if (index == ledCount) {
-                            finished = true;
-                        } else {
-                            // index += 1;
-                            setTimeout(setColor, 10);
-                        }
-                    });
-                    device.pulse("#000000", { 'channel': 0, 'index': 1, 'duration': 500 }, function () {
-                        if (index == ledCount) {
-                            finished = true;
-                        } else {
-                            // index += 1;
-                            setTimeout(setColor, 10);
-                        }
-                    });
-                    device.pulse("#000000", { 'channel': 0, 'index': 2, 'duration': 500 }, function () {
+                    // device.setColor("#000000", { 'channel': 0, 'index': index, 'duration': 50 }, function () {
+                    device.setColor("#FF0000", { 'channel': 0, 'index': index }, function () {
                         if (index == ledCount) {
                             finished = true;
                         } else {
@@ -72,21 +55,37 @@ function eye_flash(track) {
                             setTimeout(setColor, 10);
                         }
                     });
-                    device.setColor("#000000", { 'channel': 0, 'index': 2 }, function () {
-                        if (index == ledCount) {
-                            finished = true;
-                        } else {
-                            // index += 1;
-                            setTimeout(setColor, 10);
-                        }
-                    });
                 }
 
                 setColor();
 
-                var wait = function () { if (!finished) setTimeout(wait, 100) }
+                var wait = function () { if (!finished) setTimeout(wait, 1000) }
                 wait();
             }
+
+            // if (device) {
+            //     var finished = false;
+            //     var ledCount = 7;
+            //     var index = 0;
+
+            //     var setColor = function () {
+            //         console.log(index);
+            //         // device.setColor("#000000", { 'channel': 0, 'index': index, 'duration': 50 }, function () {
+            //         device.setColor("#000000", { 'channel': 0, 'index': index }, function () {
+            //             if (index == ledCount) {
+            //                 finished = true;
+            //             } else {
+            //                 index += 1;
+            //                 setTimeout(setColor, 10);
+            //             }
+            //         });
+            //     }
+
+            //     setColor();
+
+            //     var wait = function () { if (!finished) setTimeout(wait, 100) }
+            //     wait();
+            // }
 
 
             // WTH
