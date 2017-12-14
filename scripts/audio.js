@@ -30,14 +30,15 @@ device = blinkstick.findFirst();
 // lights Blinkstick physical device from system hosting hubot
 function eye_flash(track) {
     if (eyes_on) {
-        dur = 3.88;
+        dur = 8.88;
         mp3dur = 0;
 
         mp3dur = dur * 1000;
+        console.log("mp3dur", mp3dur);
         wink_len = 0;
         while (wink_len <= mp3dur) {
-            // wink = Math.floor(Math.random() * 200) + 50;
-            // wink = 250;
+            // wink = Math.floor(Math.random() * 250) + 50;
+            wink = 1000;
             // WTH
             if (device) {
                 var finished = false;
@@ -45,51 +46,24 @@ function eye_flash(track) {
                 var index = 0;
 
                 var setColor = function () {
-                    console.log(index);
-                    // device.setColor("#000000", { 'channel': 0, 'index': index, 'duration': 50 }, function () {
+                    console.log("index", index);
                     device.setColor("#FF0000", { 'channel': 0, 'index': index }, function () {
                         if (index == ledCount) {
+                            console.log("finished", wink_len);
                             finished = true;
                         } else {
                             index += 1;
                             setTimeout(setColor, 10);
+                            console.log("after setTimeout", wink_len);
                         }
                     });
                 }
-
                 setColor();
 
                 var wait = function () { if (!finished) setTimeout(wait, 1000) }
                 wait();
             }
-
-            // if (device) {
-            //     var finished = false;
-            //     var ledCount = 7;
-            //     var index = 0;
-
-            //     var setColor = function () {
-            //         console.log(index);
-            //         // device.setColor("#000000", { 'channel': 0, 'index': index, 'duration': 50 }, function () {
-            //         device.setColor("#000000", { 'channel': 0, 'index': index }, function () {
-            //             if (index == ledCount) {
-            //                 finished = true;
-            //             } else {
-            //                 index += 1;
-            //                 setTimeout(setColor, 10);
-            //             }
-            //         });
-            //     }
-
-            //     setColor();
-
-            //     var wait = function () { if (!finished) setTimeout(wait, 100) }
-            //     wait();
-            // }
-
-
-            // WTH
-            // shell.exec('blinkstick --pulse red --repeat 1 --duration=' + wink, { async: false, silent: true });
+            console.log("wink_len", wink_len);
             wink_len += wink * 4;
         }
 
