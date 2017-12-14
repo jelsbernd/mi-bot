@@ -30,54 +30,43 @@ device = blinkstick.findFirst();
 // lights Blinkstick physical device from system hosting hubot
 function eye_flash(track) {
     if (eyes_on) {
-        dur = 8.88;
+        dur = 2.88;
         mp3dur = 0;
+        ms_time = 0;
 
         mp3dur = dur * 1000;
-        console.log("mp3dur", mp3dur);
-        wink_len = 0;
-        while (wink_len <= mp3dur) {
-            // wink = Math.floor(Math.random() * 250) + 50;
-            wink = 1000;
-            // WTH
-            if (device) {
-                var finished = false;
-                var ledCount = 7;
-                var index = 0;
-
-                var setColor = function () {
-                    console.log("index", index);
-                    device.setColor("#FF0000", { 'channel': 0, 'index': index }, function () {
-                        if (index == ledCount) {
-                            console.log("finished", wink_len);
-                            finished = true;
-                        } else {
-                            index += 1;
-                            setTimeout(setColor, 10);
-                            console.log("after setTimeout", wink_len);
-                        }
-                    });
-                }
-                setColor();
-
-                var wait = function () { if (!finished) setTimeout(wait, 1000) }
-                wait();
+        while (ms_time <= mp3dur) {
+            console.log("mp3dur", mp3dur);
+            wink_len = 0;
+            while (wink_len <= mp3dur) {
+                wink = Math.floor(Math.random() * 50) + 50;
+                // wink = 50;
+                device.setColor("#FF0000", { 'channel': 0, 'index': 0 });
+                device.setColor("#FF0000", { 'channel': 0, 'index': 1 });
+                device.setColor("#FF0000", { 'channel': 0, 'index': 2 });
+                device.setColor("#FF0000", { 'channel': 0, 'index': 3 });
+                device.setColor("#FF0000", { 'channel': 0, 'index': 4 });
+                device.setColor("#FF0000", { 'channel': 0, 'index': 5 });
+                device.setColor("#FF0000", { 'channel': 0, 'index': 6 });
+                device.setColor("#FF0000", { 'channel': 0, 'index': 7 });
+                wink_len += wink;
             }
-            console.log("wink_len", wink_len);
-            wink_len += wink * 4;
+            wink_len = 0;
+            while (wink_len <= mp3dur) {
+                // wink = Math.floor(Math.random() * 250) + 50;
+                wink = 50;
+                device.setColor("#000000", { 'channel': 0, 'index': 0 });
+                device.setColor("#000000", { 'channel': 0, 'index': 1 });
+                device.setColor("#000000", { 'channel': 0, 'index': 2 });
+                device.setColor("#000000", { 'channel': 0, 'index': 3 });
+                device.setColor("#000000", { 'channel': 0, 'index': 4 });
+                device.setColor("#000000", { 'channel': 0, 'index': 5 });
+                device.setColor("#000000", { 'channel': 0, 'index': 6 });
+                device.setColor("#000000", { 'channel': 0, 'index': 7 });
+                wink_len += wink;
+            }
+            ms_time += 500;
         }
-
-        // mp3Duration(track, function (err, duration) {
-        //     if (err) return console.log(err.message);
-        //     mp3dur = duration * 1000;
-        //     wink_len = 0;
-        //     while (wink_len <= mp3dur) {
-        //         wink = Math.floor(Math.random() * 200) + 50;
-        //         // wink = 250;
-        //         shell.exec('blinkstick --pulse red --repeat 1 --duration=' + wink, { async: false, silent: true });
-        //         wink_len += wink * 4;
-        //     }
-        // });
     }
 }
 
