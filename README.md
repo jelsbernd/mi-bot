@@ -4,6 +4,7 @@ PREREQUISITES:
 on an RPi, sudo amixer cset numid=3 1 to set audio output to headphone jack
 sudo npm install -g shelljs
 sudo apt-get install mpg123
+sudo apt-get install redis-server
 
 
 sudo apt-get install python-pip

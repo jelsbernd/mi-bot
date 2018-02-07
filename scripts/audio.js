@@ -48,7 +48,7 @@ function eye_flash(dur, track) {
 
         mp3dur = dur * 2750;
         while (ms_time <= mp3dur) {
-            console.log("mp3dur", mp3dur);
+            // console.log("mp3dur", mp3dur);
             wink_len1 = 0;
             // flash those eyes
             while (wink_len1 <= mp3dur) {
@@ -63,7 +63,7 @@ function eye_flash(dur, track) {
                 device.setColor("#FF0000", { 'channel': 0, 'index': 6 });
                 device.setColor("#FF0000", { 'channel': 0, 'index': 7 });
                 wink_len1 += wink;
-                console.log("wink_len1 top", wink_len1);
+                // console.log("wink_len1 top", wink_len1);
             }
             wink_len2 = 0;
             // darken those eyes
@@ -79,7 +79,7 @@ function eye_flash(dur, track) {
                 device.setColor("#000000", { 'channel': 0, 'index': 6 });
                 device.setColor("#000000", { 'channel': 0, 'index': 7 });
                 wink_len2 += wink;
-                console.log("wink_len2 bottom", wink_len2);
+                // console.log("wink_len2 bottom", wink_len2);
             }
             ms_time += wink_len1;
         }
@@ -115,6 +115,18 @@ module.exports = function (robot) {
                   comms off\
                   dont fail\
                   build pass");
+    });
+
+    robot.hear(/vader build watch/igm, function (msg) {
+        robot.brain.set("build", "devops");
+        chat_it(msg, "Monitoring build xxx");
+        say(1.83, "as_wish.mp3");
+    });
+
+    robot.hear(/vader build status/igm, function (msg) {
+        current_build = robot.brain.get("build");
+        chat_it(msg, "Monitoring build " + current_build);
+        say(1.83, "as_wish.mp3");
     });
 
     robot.hear(/vader eyes on/igm, function (msg) {
@@ -155,62 +167,57 @@ module.exports = function (robot) {
     });
 
     robot.hear(/vader dont fail/igm, function (msg) {
-        say(1.83, "dontfail.mp3");
+        say(2.2, "dontfail.mp3");
     });
 
     robot.hear(/vader build pass/igm, function (msg) {
         // chat_it(msg, "Impressive");
-        say(1.83, "proud.mp3");
+        say(3.5, "proud.mp3");
     });
 
     robot.hear(/Git push detected/igm, function (msg) {
         //  chat_it(msg, "Real Good");
-        say(1.83, "pushit.mp3");
+        say(8.65, "pushit.mp3");
     });
 
     robot.hear(/vader breath/igm, function (msg) {
         //  chat_it(msg, "Real Good");
-        say(1.83, "breath.mp3");
+        say(4.5, "breath.mp3");
     });
     robot.hear(/vader disintigrate/igm, function (msg) {
         //  chat_it(msg, "Real Good");
-        say(1.83, "dsntgrt.mp3");
+        say(3.9, "dsntgrt.mp3");
     });
     robot.hear(/vader all to easy/igm, function (msg) {
         //  chat_it(msg, "Real Good");
-        // 1.1
-
         say(1.1, "all2easy.mp3");
     });
     robot.hear(/vader waiting/igm, function (msg) {
         //  chat_it(msg, "Real Good");
-        // 2.5
         say(2.5, "waiting.mp3");
     });
     robot.hear(/vader power/igm, function (msg) {
         //  chat_it(msg, "Real Good");
-        // 4.0
         say(4.0, "power.mp3");
     });
     robot.hear(/vader no escape/igm, function (msg) {
         //  chat_it(msg, "Real Good");
-        // 5.0
         say(5.0, "noescap.mp3");
     });
     robot.hear(/vader impressive/igm, function (msg) {
         //  chat_it(msg, "Real Good");
-        say(1.83, "impresiv.mp3");
+        say(1.08, "impresiv.mp3");
     });
     robot.hear(/vader bidding/igm, function (msg) {
         //  chat_it(msg, "Real Good");
-        say(1.83, "bidding.mp3");
+        say(2.45, "bidding.mp3");
     });
     robot.hear(/vader honored/igm, function (msg) {
         //  chat_it(msg, "Real Good");
-        say(1.83, "honored.mp3");
+        say(3.1, "honored.mp3");
     });
     robot.hear(/vader force/igm, function (msg) {
         //  chat_it(msg, "Real Good");
-        say(1.83, "theforce.mp3");
+        say(8.9, "theforce.mp3");
     });
 }
