@@ -117,13 +117,22 @@ module.exports = function (robot) {
                   build pass");
     });
 
+    robot.hear(/buildMonitor (.*)/igm, function (msg) {
+        keyvalue_pair = msg.match[1]
+        name = keyvalue_pair.split(':')[1]
+        room = findRoom(msg)
+        monitorBuild(room, name, msg)
+        // chat_it(msg, "Monitoring build " + name);
+        say(1.83, "as_wish.mp3");
+    });
+
     robot.hear(/vader watch build (.*)/igm, function (msg) {
         name = msg.match[1]
         room = findRoom(msg)
         monitorBuild(room, name, msg)
         // chat_it(msg, "Monitoring build " + name);
         say(1.83, "as_wish.mp3");
-    });
+    });    
 
     robot.hear(/vader build status/igm, function (msg) {
         room = findRoom(msg)
