@@ -99,15 +99,17 @@ module.exports = (robot) ->
     return
 
   # triggers monitoring a Build in the brain.
-  @monitorBuild = (room, name, msg) ->
-
+  @monitorBuild = (room, name, status, tstamp, msg) ->
+    clearSpecificBuildForRoom room, name, msg
     Builds = getBuilds()
     newBuild =
       room: room
       name: name
+      status: status
+      tstamp: tstamp
     Builds.push newBuild
     updateBrain Builds
-    msg.send 'Noted. Now monitoring ' + name
+    # msg.send 'Noted. Now monitoring ' + name
     return    
 
   # Updates the brain's Build knowledge.
@@ -125,21 +127,17 @@ module.exports = (robot) ->
     return
 
   # Remove specific Builds for a room
-  clearSpecificBuildForRoom = (room, time, msg) ->
-    if !timeIsValid time
-      msg.send "Sorry, but I couldn't spot a time in your command."
-      return
-
+  @clearSpecificBuildForRoom = (room, name, msg) ->
     Builds = getBuilds()
     BuildsToKeep = _.reject(Builds,
       room: room
-      time: time)
+      name: name)
     updateBrain BuildsToKeep
-    BuildsCleared = Builds.length - (BuildsToKeep.length)
-    if BuildsCleared == 0
-      msg.send 'Nice try. You don\'t even have a Build at ' + time
-    else
-      msg.send 'Deleted your ' + time + ' Build.'
+    # BuildsCleared = Builds.length - (BuildsToKeep.length)
+    # if BuildsCleared == 0
+    #   msg.send 'I found no builds to clear named ' + name
+    # else
+    #   msg.send 'Updated your ' + name + ' Build.'
     return
 
   # Responsd to the help command
@@ -164,10 +162,10 @@ module.exports = (robot) ->
   @listBuildsForRoom = (room, msg) ->
     Builds = getBuildsForRoom(findRoom(msg))
     if Builds.length == 0
-      msg.send 'Well this is awkward. You haven\'t got any Builds set :-/'
+      msg.send 'I haven\'t been informed of any Builds'
     else
-      BuildsText = [ 'Here\'s your Builds:' ].concat(_.map(Builds, (Build) ->
-        text =  'Name: ' + Build.name
+      BuildsText = [ 'These are your builds:' ].concat(_.map(Builds, (Build) ->
+        text =  Build.name + ' had status ' + Build.status + ' on ' + Build.tstamp
         text
       ))
       msg.send BuildsText.join('\n')
@@ -243,7 +241,7 @@ module.exports = (robot) ->
 
   #   switch action
   #     when 'create' then saveBuild room, dayOfWeek, time, utcOffset, location, msg
-  #     when 'monitor' then monitorBuild room, name, msg
+      # when 'monitor' then monitorBuild room, name, msg
   #     when 'list' then listBuildsForRoom room, msg
   #     when 'list all' then listBuildsForAllRooms msg
   #     when 'delete' then clearSpecificBuildForRoom room, time, msg

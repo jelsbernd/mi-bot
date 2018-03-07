@@ -117,22 +117,43 @@ module.exports = function (robot) {
                   build pass");
     });
 
-    robot.hear(/buildMonitor (.*)/igm, function (msg) {
-        keyvalue_pair = msg.match[1]
-        name = keyvalue_pair.split(':')[1]
+    robot.hear(/buildMonitoring (.*)/i, function (msg) {
+        // var str = "1:joe 2:win 3:now";
+        whole = msg.match[1]
+        tuples = whole.split(' ')   
+        // name
+        KVpair1 = tuples[0]
+        console.log(KVpair1)
+        tuple = KVpair1.split('|')
+        name = tuple[1]
+        // status
+        KVpair2 = tuples[1]
+        console.log(KVpair2)
+        tuple = KVpair2.split('|')
+        status = tuple[1]
+        if (status === 'Success')
+            say(1.08, "impresiv.mp3")
+        else
+            say(2.2, "dontfail.mp3")
+        // t-stamp
+        KVpair3 = tuples[2]
+        console.log(KVpair3)
+        tuple = KVpair3.split('|')
+        tstamp = tuple[1]
+
         room = findRoom(msg)
-        monitorBuild(room, name, msg)
+        monitorBuild(room, name, status, tstamp, msg)
         // chat_it(msg, "Monitoring build " + name);
-        say(1.83, "as_wish.mp3");
+        // say(1.83, "as_wish.mp3");
     });
 
-    robot.hear(/vader watch build (.*)/igm, function (msg) {
+    robot.hear(/vader watch build (.*)/i, function (msg) {
         name = msg.match[1]
         room = findRoom(msg)
         monitorBuild(room, name, msg)
         // chat_it(msg, "Monitoring build " + name);
         say(1.83, "as_wish.mp3");
-    });    
+    });
 
     robot.hear(/vader build status/igm, function (msg) {
         room = findRoom(msg)
