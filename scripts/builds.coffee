@@ -68,7 +68,7 @@ module.exports = (robot) ->
 
 
   # Finds the room for most adaptors
-  findRoom = (msg) ->
+  @findRoom = (msg) ->
     room = msg.envelope.room
     if _.isUndefined(room)
       room = msg.envelope.user.reply_to
@@ -99,7 +99,7 @@ module.exports = (robot) ->
     return
 
   # triggers monitoring a Build in the brain.
-  monitorBuild = (room, name, msg) ->
+  @monitorBuild = (room, name, msg) ->
 
     Builds = getBuilds()
     newBuild =
@@ -107,7 +107,7 @@ module.exports = (robot) ->
       name: name
     Builds.push newBuild
     updateBrain Builds
-    msg.send 'Ok, from now on I\'ll monitor this build'
+    msg.send 'Noted. Now monitoring ' + name
     return    
 
   # Updates the brain's Build knowledge.
@@ -116,7 +116,7 @@ module.exports = (robot) ->
     return
 
   # Remove all Builds for a room
-  clearAllBuildsForRoom = (room, msg) ->
+  @clearAllBuildsForRoom = (room, msg) ->
     Builds = getBuilds()
     BuildsToKeep = _.reject(Builds, room: room)
     updateBrain BuildsToKeep
@@ -161,7 +161,7 @@ module.exports = (robot) ->
     return
 
   # List the Builds within a specific room
-  listBuildsForRoom = (room, msg) ->
+  @listBuildsForRoom = (room, msg) ->
     Builds = getBuildsForRoom(findRoom(msg))
     if Builds.length == 0
       msg.send 'Well this is awkward. You haven\'t got any Builds set :-/'
@@ -207,17 +207,29 @@ module.exports = (robot) ->
   # Monday to Friday.
   # new cronJob('1 * * * * 1-5', checkBuilds, null, true)
 
-  robot.hear /monitor (.*)/i, (msg) ->
-    # msg.send "monitor? MONITOR? WE DON'T NEED NO STINKIN MONITOR"
-    name = escape(msg.match[1])
-    room = findRoom msg
-    monitorBuild room, name, msg
+  # robot.hear /monitor (.*)/i, (msg) ->
+  #   # msg.send "monitor? MONITOR? WE DON'T NEED NO STINKIN MONITOR"
+  #   name = escape(msg.match[1])
+  #   room = findRoom msg
+  #   monitorBuild room, name, msg
 
-  robot.hear /list/i, (msg) ->
+  # robot.hear /clear/i, (msg) ->
+  #   msg.send "clear? LIST? Okay."
+  #   room = findRoom msg
+  #   clearAllBuildsForRoom room, msg
+  
+
+  # robot.hear /list/i, (msg) ->
+  #   msg.send "list? LIST? Okay."
+  #   room = findRoom msg
+  #   listBuildsForRoom room, msg
+  
+
+  robot.hear /justatest/i, (msg) ->
     msg.send "list? LIST? Okay."
     room = findRoom msg
     listBuildsForRoom room, msg
-  return
+  
 
   # Global regex should match all possible options
   # robot.respond /(.*?)builds? ?(?:([A-z]*)\s?\@\s?)?((?:[01]?[0-9]|2[0-4]):[0-5]?[0-9])?(?: UTC([- +]\d\d?))?(.*)/i, (msg) ->

@@ -117,15 +117,29 @@ module.exports = function (robot) {
                   build pass");
     });
 
-    robot.hear(/vader build watch/igm, function (msg) {
-        robot.brain.set("build", "devops");
-        chat_it(msg, "Monitoring build xxx");
+    robot.hear(/vader watch build (.*)/igm, function (msg) {
+        name = msg.match[1]
+        room = findRoom(msg)
+        monitorBuild(room, name, msg)
+        // chat_it(msg, "Monitoring build " + name);
         say(1.83, "as_wish.mp3");
     });
 
     robot.hear(/vader build status/igm, function (msg) {
-        current_build = robot.brain.get("build");
-        chat_it(msg, "Monitoring build " + current_build);
+        room = findRoom(msg)
+        listBuildsForRoom(room, msg)
+        // say(1.83, "as_wish.mp3");
+    });
+
+    robot.hear(/vader list builds/igm, function (msg) {
+        room = findRoom(msg)
+        listBuildsForRoom(room, msg)
+        say(1.83, "as_wish.mp3");
+    });
+
+    robot.hear(/vader clear builds/igm, function (msg) {
+        room = findRoom(msg)
+        clearAllBuildsForRoom(room, msg)
         say(1.83, "as_wish.mp3");
     });
 
